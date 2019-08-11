@@ -72,7 +72,11 @@ public class Weather_Snow : Weather_Base
 
         // We turn on emission on the particle system as we always turn it off in the end
         if (_gPartSnow != null)
-            _gPartSnow.GetComponent<ParticleSystem>().enableEmission = true;
+        {
+            ParticleSystem sp = _gPartSnow.GetComponent<ParticleSystem>();
+            var sem = sp.emission;
+            sem.enabled = true;
+        }
     }
 
     private void Update()
@@ -218,7 +222,9 @@ public class Weather_Snow : Weather_Base
         if (_gPartSnow.activeInHierarchy == true && _gPartSnow != null)
         {
             _fEndParticleTimerStart += Time.deltaTime;
-            _gPartSnow.GetComponent<ParticleSystem>().enableEmission = false;
+            ParticleSystem sp = _gPartSnow.GetComponent<ParticleSystem>();
+            var sem = sp.emission;
+            sem.enabled = false;
 
             if (_bTurnOffSoundAtExit == true)
             {

@@ -72,7 +72,11 @@ public class Weather_Rain : Weather_Base
 
         // We turn on emission on the particle system as we always turn it off in the end
         if (_gPartRain != null)
-            _gPartRain.GetComponent<ParticleSystem>().enableEmission = true;
+        {
+            ParticleSystem rp = _gPartRain.GetComponent<ParticleSystem>();
+            var rem = rp.emission;
+            rem.enabled = true;
+        }
     }
 
     private void Update()
@@ -218,7 +222,9 @@ public class Weather_Rain : Weather_Base
         if (_gPartRain != null && _gPartRain.activeInHierarchy == true)
         {
             _fEndParticleTimerStart += Time.deltaTime;
-            _gPartRain.GetComponent<ParticleSystem>().enableEmission = false;
+            ParticleSystem rp = _gPartRain.GetComponent<ParticleSystem>();
+            var rem = rp.emission;
+            rem.enabled = false;
 
             if (_bTurnOffSoundAtExit == true)
             {

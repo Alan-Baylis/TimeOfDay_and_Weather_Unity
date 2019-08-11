@@ -444,7 +444,7 @@ public class Weather_Controller : MonoBehaviour
 
         // Skybox settings
         if (_bUsingProceduralSkybox == false)
-            RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyTint, Time.deltaTime / fadeTime));
+            RenderSettings.skybox.SetColor("_SkyTint", Color.Lerp(RenderSettings.skybox.GetColor("_SkyTint"), skyTint, Time.deltaTime / fadeTime));
         else
         {
             RenderSettings.skybox.SetColor("_SkyTint", Color.Lerp(RenderSettings.skybox.GetColor("_SkyTint"), skyTint, Time.deltaTime / fadeTime));
@@ -455,7 +455,7 @@ public class Weather_Controller : MonoBehaviour
         if (matClouds != null)
             matClouds.color = Color.Lerp(matClouds.color, cloudColor, Time.deltaTime / fadeTime);
         else
-            Debug.LogWarning("We have no cloud material attached to:" + this.gameObject);
+            //Debug.LogWarning("We have no cloud material attached to:" + this.gameObject);
 
         // Fog settings
         RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, fogDensity, Time.deltaTime / fadeTime);
@@ -477,17 +477,19 @@ public class Weather_Controller : MonoBehaviour
     {
         if (CurrParticles != null)
         {
-            if (CurrParticles.gameObject.GetComponent<ParticleSystem>() != false)
+            ParticleSystem CP = CurrParticles.gameObject.GetComponent<ParticleSystem>();
+            var CPem = CP.emission;
+            if (CP != false)
             {
-                if (CurrParticles.gameObject.GetComponent<ParticleSystem>().enableEmission == false)
+                if (CPem.enabled == false)
                 {
-                    CurrParticles.gameObject.GetComponent<ParticleSystem>().enableEmission = true;
+                    CPem.enabled = true;
 
                     if (CurrParticles.transform.childCount != 0)
                     {
                         for (int iii = 0; iii < CurrParticles.transform.childCount; ++iii)
                         {
-                            CurrParticles.transform.GetChild(iii).gameObject.GetComponent<ParticleSystem>().enableEmission = true;
+                            CPem.enabled = true;
                         }
                     }
                 }
@@ -498,7 +500,7 @@ public class Weather_Controller : MonoBehaviour
                 {
                     for (int iii = 0; iii < CurrParticles.transform.childCount; ++iii)
                     {
-                        CurrParticles.transform.GetChild(iii).gameObject.GetComponent<ParticleSystem>().enableEmission = true;
+                        CPem.enabled = true;
                     }
                 }
             }
@@ -514,17 +516,19 @@ public class Weather_Controller : MonoBehaviour
     {
         if (CurrParticles != null)
         {
-            if (CurrParticles.gameObject.GetComponent<ParticleSystem>() != false)
+            ParticleSystem CP = CurrParticles.gameObject.GetComponent<ParticleSystem>();
+            var CPem = CP.emission;
+            if (CP != false)
             {
-                if (CurrParticles.gameObject.GetComponent<ParticleSystem>().enableEmission == true)
+                if (CPem.enabled == true)
                 {
-                    CurrParticles.gameObject.GetComponent<ParticleSystem>().enableEmission = false;
+                    CPem.enabled = false;
 
                     if (CurrParticles.transform.childCount != 0)
                     {
                         for (int iii = 0; iii < CurrParticles.transform.childCount; ++iii)
                         {
-                            CurrParticles.transform.GetChild(iii).gameObject.GetComponent<ParticleSystem>().enableEmission = false;
+                            CPem.enabled = false;
                         }
                     }
                 }
@@ -535,7 +539,7 @@ public class Weather_Controller : MonoBehaviour
                 {
                     for (int iii = 0; iii < CurrParticles.transform.childCount; ++iii)
                     {
-                        CurrParticles.transform.GetChild(iii).gameObject.GetComponent<ParticleSystem>().enableEmission = false;
+                        CPem.enabled = false;
                     }
                 }
             }
